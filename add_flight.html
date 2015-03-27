@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Add a flight | Flights app</title>
+    </head>
+    <body>
+        <h1>Add a flight</h1>
+        <form action="/flight.php" method="post">
+            <label for="airline">Airline:</label>
+            <input type="text" name="airline" />
+
+            <label for="flight_number">Flight number:</label>
+            <input type="text" name="flight_number" />
+
+            <label for="source_airport">Departure airport code:</label>
+            <input type="text" name="source_airport" />
+
+            <label for="destination_airport">Arrival airport code:</label>
+            <input type="text" name="destination_airport" />
+
+            <label for="departure_time">Departure time:</label>
+            <input type="text" name="departure_time" />
+
+            <label for="arrival_time">Arrival time:</label>
+            <input type="text" name="arrival_time" />
+
+            <button type="submit">Add</button>
+        </form>
+    </body>
+</html>
