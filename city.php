@@ -9,16 +9,11 @@ if (!isset($_POST['name']) || !isset($_POST['state'])
     exit;
 }
 
-
-$city_name = $_POST['name'];
-$state_name = $_POST['state'];
-$population = $_POST['population'];
-
 $ins_city = $db->prepare('INSERT INTO city(city_name, state_name, population) '
     . 'VALUES (:city_name, :state_name, :population)');
-$ins_city->bindValue(':city_name', $city_name);
-$ins_city->bindValue(':state_name', $state_name);
-$ins_city->bindValue(':population', $population);
+$ins_city->bindValue(':city_name', $_POST['name']);
+$ins_city->bindValue(':state_name', $_POST['state']);
+$ins_city->bindValue(':population', $_POST['population']);
 
 try {
     $ins_city->execute();

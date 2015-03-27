@@ -12,23 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    $airline = $_POST['airline'];
-    $flight_number = $_POST['flight_number'];
-    $source_airport = $_POST['source_airport'];
-    $destination_airport = $_POST['destination_airport'];
-    $departure_time = $_POST['departure_time'];
-    $arrival_time = $_POST['arrival_time'];
-
     $ins_flight = $db->prepare('INSERT INTO flight(airline, flight_number, '
         . 'source_airport, destination_airport, departure_time, arrival_time) '
         . 'VALUES (:airline, :flight_number, :source_airport, '
         . ':destination_airport, :departure_time, :arrival_time)');
-    $ins_flight->bindValue(':airline', $airline);
-    $ins_flight->bindValue(':flight_number', $flight_number);
-    $ins_flight->bindValue(':source_airport', $source_airport);
-    $ins_flight->bindValue(':destination_airport', $destination_airport);
-    $ins_flight->bindValue(':departure_time', $departure_time);
-    $ins_flight->bindValue(':arrival_time', $arrival_time);
+    $ins_flight->bindValue(':airline', $_POST['airline']);
+    $ins_flight->bindValue(':flight_number', $_POST['flight_number']);
+    $ins_flight->bindValue(':source_airport', $_POST['source_airport']);
+    $ins_flight->bindValue(':destination_airport', $_POST['destination_airport']);
+    $ins_flight->bindValue(':departure_time', $_POST['departure_time']);
+    $ins_flight->bindValue(':arrival_time', $_POST['arrival_time']);
 
     try {
         $ins_flight->execute();
