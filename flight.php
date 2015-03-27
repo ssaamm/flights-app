@@ -13,7 +13,7 @@ function format_flight($flight) {
     return '<div class="flight">' . $flight['airline'] . ' '
         . $flight['flight_number'] . ' -- ' . $flight['source_airport'] . ' ('
         . $flight['departure_time'] . ') -> ' . $flight['destination_airport']
-        . ' (' . $flight['arrival_time'] . ')'  . '</div>';
+        . ' (' . $flight['arrival_time'] . ')</div>';
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -1,5 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Find a route | Flights app</title>
+    </head>
+    <body>
+        <h1>Find a route</h1>
 <?php
 require_once('database.php');
+
+function format_flight($flight) {
+    return '<div class="flight">' . $flight['airline'] . ' '
+        . $flight['flight_number'] . ' -- ' . $flight['source_airport'] . ' ('
+        . $flight['departure_time'] . ') -> ' . $flight['destination_airport']
+        . ' (' . $flight['arrival_time'] . ')</div>';
+}
+
+function format_indirect($row) {
+    return '<div class="flight">' . $row['airline1'] . $row['flight1'] . ', '
+        . $row['airline2'] . ' ' . $row['flight2'] . '</div>';
+}
 
 // verify correct attributes
 if (!isset($_GET['source_airport']) || !isset($_GET['destination_airport'])) {
@@ -19,7 +39,7 @@ $get_route->bindValue(':source_airport', $_GET['source_airport']);
 $get_route->bindValue(':destination_airport', $_GET['destination_airport']);
 
 $get_direct = $db->prepare(
-  'SELECT airline, flight_number' . PHP_EOL
+  'SELECT *' . PHP_EOL
 . 'FROM  flight' . PHP_EOL
 . 'WHERE source_airport = :source_airport' . PHP_EOL
 . '  AND destination_airport = :destination_airport;' . PHP_EOL);
@@ -35,14 +55,16 @@ try {
     exit;
 }
 
-echo 'Indirect:' . PHP_EOL;
+echo '<h2>Indirect:</h2>' . PHP_EOL;
 while ($row = $get_route->fetch()) {
-    var_dump($row);
+    echo format_indirect($row) . PHP_EOL;
 }
 
-echo 'Direct:' . PHP_EOL;
+echo '<h2>Direct:</h2>' . PHP_EOL;
 while ($row = $get_direct->fetch()) {
-    var_dump($row);
+    echo format_flight($row) . PHP_EOL;
 }
 
 ?>
+    </body>
+</html>
