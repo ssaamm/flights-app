@@ -1,5 +1,20 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Flights | Flights app</title>
+    </head>
+    <body>
+        <h1>Flights</h1>
+        <p><?php
 require_once('database.php');
+
+function format_flight($flight) {
+    return '<div class="flight">' . $flight['airline'] . ' '
+        . $flight['flight_number'] . ' -- ' . $flight['source_airport'] . ' ('
+        . $flight['departure_time'] . ') -> ' . $flight['destination_airport']
+        . ' (' . $flight['arrival_time'] . ')'  . '</div>';
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // verify correct attributes
@@ -7,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'destination_airport', 'departure_time', 'arrival_time');
     foreach ($required_attributes as $attribute) {
         if (!isset($_POST[$attribute])) {
-            echo 'Error: ' . $attribute . ' set incorrectly' . PHP_EOL;
+            echo 'Error: ' . $attribute . ' set incorrectly';
             exit;
         }
     }
@@ -26,12 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $ins_flight->execute();
     } catch (PDOException $e) {
-        echo 'Error: problem adding flight' . PHP_EOL;
-        echo $e->getMessage() . PHP_EOL;
+        echo 'Error: problem adding flight<br>' . PHP_EOL;
+        echo $e->getMessage();
         exit;
     }
 
-    echo 'Yay' . PHP_EOL;
+    echo 'Flight added. Thanks!';
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET'
     && isset($_GET['depart_time_start'])
     && isset($_GET['depart_time_end'])) {
@@ -42,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $get_flights->bindValue(':depart_time_start', $_GET['depart_time_start']);
     $get_flights->execute();
     while ($flight = $get_flights->fetch()) {
-        var_dump($flight);
+        echo format_flight($flight);
+        echo "<br>" . PHP_EOL;
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET'
     && !empty($_GET['destination_airport'])) {
@@ -53,7 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_GET['destination_airport']);
     $get_flights->execute();
     while ($flight = $get_flights->fetch()) {
-        var_dump($flight);
+        echo format_flight($flight);
+        echo "<br>" . PHP_EOL;
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['airline'])) {
     $get_flights = $db->prepare('SELECT * FROM flight WHERE airline = '
@@ -62,14 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $get_flights->execute();
     while ($flight = $get_flights->fetch()) {
         var_dump($flight);
+        echo "<br>" . PHP_EOL;
     }
 } else {
-    echo 'All flights';
     $get_flights = $db->prepare('SELECT * FROM flight;');
     $get_flights->execute();
     while ($flight = $get_flights->fetch()) {
-        var_dump($flight);
+        echo format_flight($flight);
+        echo "<br>" . PHP_EOL;
     }
 }
 
-?>
+?></p>
+    </body>
+</html>
