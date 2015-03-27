@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>List flights by time | Flights app</title>
+    </head>
+    <body>
+        <h1>List flights by time</h1>
+        <form action="/flight.php" method="GET">
+            <label for="depart_time_start">Leaves at or after:</label>
+            <input type="text" name="depart_time_start" />
+
+            <label for="depart_time_end">Leaves at or before:</label>
+            <input type="text" name="depart_time_end" />
+
+            <button type="submit">List</button>
+        </form>
+    </body>
+</html>
