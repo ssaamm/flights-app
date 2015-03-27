@@ -50,10 +50,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET'
     && isset($_GET['depart_time_start'])
     && isset($_GET['depart_time_end'])) {
+
     $get_flights = $db->prepare('SELECT * FROM flight WHERE departure_time <= '
         . ':depart_time_end AND departure_time >= :depart_time_start;');
     $get_flights->bindValue(':depart_time_end', $_GET['depart_time_end']);
     $get_flights->bindValue(':depart_time_start', $_GET['depart_time_start']);
+    $get_flights->execute();
+    while ($flight = $get_flights->fetch()) {
+        var_dump($flight);
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] == 'GET'
+    && isset($_GET['destination_airport'])) {
+
+    $get_flights = $db->prepare('SELECT * FROM flight WHERE '
+        . 'destination_airport = :destination_airport;');
+    $get_flights->bindValue(':destination_airport',
+        $_GET['destination_airport']);
     $get_flights->execute();
     while ($flight = $get_flights->fetch()) {
         var_dump($flight);
