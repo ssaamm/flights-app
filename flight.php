@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         var_dump($flight);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET'
-    && isset($_GET['destination_airport'])) {
+    && !empty($_GET['destination_airport'])) {
 
     $get_flights = $db->prepare('SELECT * FROM flight WHERE '
         . 'destination_airport = :destination_airport;');
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     while ($flight = $get_flights->fetch()) {
         var_dump($flight);
     }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['airline'])) {
+} elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['airline'])) {
     $get_flights = $db->prepare('SELECT * FROM flight WHERE airline = '
         . ':airline;');
     $get_flights->bindValue(':airline', $_GET['airline']);
