@@ -70,6 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     while ($flight = $get_flights->fetch()) {
         var_dump($flight);
     }
+} elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['airline'])) {
+    $get_flights = $db->prepare('SELECT * FROM flight WHERE airline = '
+        . ':airline;');
+    $get_flights->bindValue(':airline', $_GET['airline']);
+    $get_flights->execute();
+    while ($flight = $get_flights->fetch()) {
+        var_dump($flight);
+    }
 } else {
     echo 'All flights';
     $get_flights = $db->prepare('SELECT * FROM flight;');
