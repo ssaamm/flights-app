@@ -48,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     echo 'Flight added. Thanks!';
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET'
-    && isset($_GET['depart_time_start'])
-    && isset($_GET['depart_time_end'])) {
+    && !empty($_GET['depart_time_start'])
+    && !empty($_GET['depart_time_end'])) {
 
     $get_flights = $db->prepare('SELECT * FROM flight WHERE departure_time <= '
         . ':depart_time_end AND departure_time >= :depart_time_start;');
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $get_flights->bindValue(':airline', $_GET['airline']);
     $get_flights->execute();
     while ($flight = $get_flights->fetch()) {
-        var_dump($flight);
+        echo format_flight($flight);
         echo "<br>" . PHP_EOL;
     }
 } else {
